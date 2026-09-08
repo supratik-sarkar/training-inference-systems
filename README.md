@@ -1,6 +1,6 @@
 # training-inference-systems
 
-A unified high-performance machine learning systems engineering repository spanning early graph neural network acceleration and modern Apple Silicon inference, parameter-efficient adaptation, and distributed training semantics.
+A unified machine learning systems engineering repository spanning early graph neural network acceleration and modern Apple Silicon inference, parameter-efficient adaptation, and distributed training semantics.
 
 ---
 
@@ -20,7 +20,7 @@ This repository explicitly delineates historical 2025 graph systems research fro
 └── components/distributed/          Distributed training semantics, collectives & gradient primitives
 ```
 
-> **Note on Provenance**: Historical commit dates establish the timeline of legacy 2025 work only. They do not imply that 2026 components existed at those earlier dates. Complete Git provenance has been preserved for all components without squashing.
+> **Note on Provenance**: Historical commit dates establish the dates of the legacy components only; the 2026 systems were added in separately dated consolidation/import commits. Complete Git provenance has been preserved for all components without squashing.
 
 ---
 
@@ -71,7 +71,7 @@ The repository includes a standalone verification script that provisions ephemer
 ```
 
 The script executes:
-1. Python 3.12.13 version confirmation;
+1. Strict Python 3.12.13 version confirmation (fails closed on mismatch);
 2. Ephemeral virtual environment creation in temporary directories;
 3. Subsystem dependency installation;
 4. Pytest test execution across all 119 active tests;
