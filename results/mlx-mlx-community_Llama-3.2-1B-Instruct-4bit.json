@@ -1,0 +1,132 @@
+{
+  "backend": "mlx:mlx-community/Llama-3.2-1B-Instruct-4bit",
+  "capabilities": {
+    "concurrency": false,
+    "memory_metrics": true,
+    "prefix_cache": false,
+    "quantization": true,
+    "speculative_decoding": false,
+    "streaming": true,
+    "token_counts": true
+  },
+  "cases": [
+    {
+      "capability": null,
+      "metrics": {
+        "requests": 24,
+        "tokens_per_second": {
+          "caveat": "24 samples; tail percentiles from this few observations are indicative, not reliable",
+          "count": 24,
+          "max_s": 251.877872,
+          "mean_s": 235.852131,
+          "min_s": 1.998062,
+          "p50_s": 246.22189,
+          "p90_s": 248.135574,
+          "p99_s": 251.102931
+        },
+        "wall_time": {
+          "caveat": "24 samples; tail percentiles from this few observations are indicative, not reliable",
+          "count": 24,
+          "max_s": 64.062079,
+          "mean_s": 3.167901,
+          "min_s": 0.508183,
+          "p50_s": 0.519857,
+          "p90_s": 0.526373,
+          "p99_s": 49.450594
+        }
+      },
+      "name": "serial_latency",
+      "reason": "",
+      "status": "measured"
+    },
+    {
+      "capability": "streaming",
+      "metrics": {
+        "ttft": {
+          "caveat": "24 samples; tail percentiles from this few observations are indicative, not reliable",
+          "count": 24,
+          "max_s": 63.60258,
+          "mean_s": 2.713148,
+          "min_s": 0.054352,
+          "p50_s": 0.065286,
+          "p90_s": 0.071346,
+          "p99_s": 48.991569
+        }
+      },
+      "name": "time_to_first_token",
+      "reason": "",
+      "status": "measured"
+    },
+    {
+      "capability": "streaming",
+      "metrics": {
+        "itl": {
+          "count": 3048,
+          "max_s": 0.007835,
+          "mean_s": 0.003534,
+          "min_s": 0.002013,
+          "p50_s": 0.003529,
+          "p90_s": 0.003638,
+          "p99_s": 0.003796
+        }
+      },
+      "name": "inter_token_latency",
+      "reason": "",
+      "status": "measured"
+    },
+    {
+      "capability": "concurrency",
+      "metrics": {},
+      "name": "concurrent_throughput",
+      "reason": "mlx:mlx-community/Llama-3.2-1B-Instruct-4bit declares no concurrency support; running it in parallel would measure contention, not the backend",
+      "status": "skipped"
+    },
+    {
+      "capability": "prefix_cache",
+      "metrics": {},
+      "name": "prefix_cache_reuse",
+      "reason": "mlx:mlx-community/Llama-3.2-1B-Instruct-4bit does not implement prefix_cache; no measurement exists and none is estimated",
+      "status": "skipped"
+    },
+    {
+      "capability": "speculative_decoding",
+      "metrics": {},
+      "name": "speculative_speedup",
+      "reason": "mlx:mlx-community/Llama-3.2-1B-Instruct-4bit does not implement speculative_decoding; no measurement exists and none is estimated",
+      "status": "skipped"
+    },
+    {
+      "capability": "quantization",
+      "metrics": {},
+      "name": "quantization_comparison",
+      "reason": "backend declares support; this case requires a Mac run with a real model and is not implemented as a synthetic measurement",
+      "status": "skipped"
+    },
+    {
+      "capability": "memory_metrics",
+      "metrics": {
+        "active_bytes": 695244808,
+        "cache_bytes": 24479164,
+        "peak_bytes": 720504224,
+        "source": "mlx.core memory counters"
+      },
+      "name": "memory_footprint",
+      "reason": "",
+      "status": "measured"
+    }
+  ],
+  "environment": {
+    "is_apple_silicon": true,
+    "machine": "arm64",
+    "mlx": "0.32.2",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "processor": "arm",
+    "python": "3.12.13"
+  },
+  "generated_at": "2026-09-08T15:24:25.839593+00:00",
+  "is_performance_measurement": true,
+  "is_real_inference": true,
+  "measured_cases": 4,
+  "schema_version": 1,
+  "skipped_cases": 4
+}
