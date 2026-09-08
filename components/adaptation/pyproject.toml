@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "apple-silicon-adapter-lab"
+version = "0.1.0"
+description = "Adapter lifecycle for local fine-tuning: dataset versioning, deterministic splits, an adapter registry with hotswap and routing, evaluation with regression comparison, and failure mining that feeds the next dataset."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+mac = ["mlx>=0.18", "mlx-lm>=0.19"]
+
+[project.scripts]
+asal = "asal.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/asal"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
