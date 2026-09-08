@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "distributed-training-primitives"
+version = "0.1.0"
+description = "A correctness laboratory for PyTorch DeviceMesh/DTensor sharding, collectives and distributed checkpointing, run across local CPU processes."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+dependencies = ["torch>=2.5"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+
+[project.scripts]
+dtp = "dtp.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dtp"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src/dtp"]
+disable_error_code = ["attr-defined", "union-attr", "operator", "arg-type", "misc", "assignment"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
