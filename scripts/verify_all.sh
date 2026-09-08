@@ -54,13 +54,13 @@ for comp in "${ACTIVE_COMPONENTS[@]}"; do
     # Install component with optional test/dev dependencies
     "$VENV_PIP" install --quiet --disable-pip-version-check "$COMP_DIR[dev]"
     
-    # Run Ruff lint check
+    # Run Ruff lint check from component directory
     echo "Running Ruff lint..."
-    "$VENV_RUFF" check "$COMP_DIR"
+    (cd "$COMP_DIR" && "$VENV_RUFF" check .)
     
-    # Run pytest
+    # Run pytest from component directory
     echo "Running Pytest..."
-    "$VENV_PYTEST" "$COMP_DIR/tests" -q
+    (cd "$COMP_DIR" && "$VENV_PYTEST" "tests" -q)
     
     cleanup
     trap - EXIT
