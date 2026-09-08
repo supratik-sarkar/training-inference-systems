@@ -1,0 +1,210 @@
+{
+  "backend": "gloo",
+  "environment": {
+    "cuda_available": false,
+    "device": "cpu",
+    "machine": "arm64",
+    "mps_available": true,
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "processor": "arm",
+    "python": "3.12.13",
+    "torch": "2.14.0"
+  },
+  "generated_at": "2026-09-08T15:05:15.205635+00:00",
+  "mesh_shape": [
+    2
+  ],
+  "results": [
+    {
+      "detail": {
+        "global_shape": [
+          6,
+          4
+        ],
+        "local_shape": [
+          6,
+          4
+        ],
+        "placement": "Replicate",
+        "world_size": 2
+      },
+      "error": null,
+      "name": "replicated_correctness",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "expected_local_rows": 4,
+        "gather_equals_reference": true,
+        "global_shape": [
+          8,
+          3
+        ],
+        "local_shape": [
+          4,
+          3
+        ],
+        "local_slice_matches_reference": true
+      },
+      "error": null,
+      "name": "shard0_correctness",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "global_shape": [
+          5,
+          6
+        ],
+        "local_shape": [
+          5,
+          3
+        ]
+      },
+      "error": null,
+      "name": "shard1_correctness",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "after_redistribute_local_shape": [
+          8,
+          2
+        ],
+        "round_trip_matches": true
+      },
+      "error": null,
+      "name": "redistribute_shard_to_replicate",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "max_abs_difference": 0.0,
+        "note": "row-sharded A, replicated B; float32 on CPU",
+        "output_shape": [
+          8,
+          5
+        ],
+        "tolerance": {
+          "atol": 1e-06,
+          "rtol": 1e-05
+        }
+      },
+      "error": null,
+      "name": "matmul_equivalence",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "exact_match": true,
+        "shape": [
+          8,
+          3
+        ]
+      },
+      "error": null,
+      "name": "elementwise_equivalence",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "grad_shape": [
+          6,
+          4
+        ],
+        "max_abs_difference": 2.384185791015625e-07,
+        "tolerance": {
+          "atol": 1e-05,
+          "rtol": 0.0001
+        }
+      },
+      "error": null,
+      "name": "gradient_equivalence",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "all_gather_ok": true,
+        "all_reduce_ok": true,
+        "all_reduce_sum_expected": 3.0
+      },
+      "error": null,
+      "name": "collectives",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "global_shape": [
+          8,
+          3
+        ],
+        "round_trip_equals_reference": true,
+        "shards_written": 2
+      },
+      "error": null,
+      "name": "distributed_checkpoint",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "continuation_matches_uninterrupted": true,
+        "step_counter_restored": true,
+        "weights_restored": true
+      },
+      "error": null,
+      "name": "recovery_from_checkpoint",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "local_sizes": [
+          3,
+          2
+        ],
+        "note": "DTensor pads unevenly rather than raising; the invariant that matters is that no element is lost or duplicated",
+        "total_elements_preserved": true,
+        "uneven_split": true
+      },
+      "error": null,
+      "name": "mismatched_mesh_is_rejected",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    },
+    {
+      "detail": {
+        "backward_produced_gradients": true,
+        "fully_shard_applied": true,
+        "loss_is_finite": true,
+        "note": "CPU/Gloo. Demonstrates FSDP2 semantics only; this is not a throughput or memory-scaling result."
+      },
+      "error": null,
+      "name": "fsdp2_conditional",
+      "passed": true,
+      "skip_reason": "",
+      "skipped": false
+    }
+  ],
+  "schema_version": 1,
+  "world_size": 2
+}
