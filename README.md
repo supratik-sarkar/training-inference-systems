@@ -80,7 +80,17 @@ The script executes:
 
 ---
 
-## Git Tags & Provenance Anchor
+## Historical Lineage & Provenance
+
+This repository is anchored on the genuine 2025 `gnn-mixed-precision` GitHub repository object. Historical research components are preserved under `legacy/`:
+* `legacy/gnn-mixed-precision/`: Adaptive mixed-precision execution for large-scale GNNs.
+* `legacy/gnn-push-pull/`: Push-pull batching and communication reduction in graph training.
+
+In September 2026, the repository was transitioned into the `training-inference-systems` umbrella, integrating the three modern systems with un-squashed Git commit histories.
+
+See [HISTORY.md](HISTORY.md) for full lineage proofs, earliest commit timestamps, component tags, and commit links.
+
+### Git Tags & Provenance Anchor
 
 Historical and component tips are tagged:
 * `legacy/gnn-mixed-precision-2025`
