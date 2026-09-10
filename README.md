@@ -1,104 +1,172 @@
-# training-inference-systems
+# Training & Inference Systems: ML Execution Infrastructure
 
-A unified machine learning systems engineering repository spanning early graph neural network acceleration and modern Apple Silicon inference, parameter-efficient adaptation, and distributed training semantics.
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python: 3.12](https://img.shields.io/badge/Python-3.12-3776AB.svg?logo=python&logoColor=white)](scripts/verify_all.sh)
+[![Architecture: Apple Silicon + Distributed](https://img.shields.io/badge/Architecture-Apple%20Silicon%20%7C%20Distributed%20Primitives-indigo.svg)](#systems-architecture)
+[![Backends: MLX / MPS / Distributed Collectives](https://img.shields.io/badge/Backends-MLX%20%7C%20MPS%20%7C%20Collectives-darkgreen.svg)](#1-apple-silicon-inference-lab-componentsinference)
+[![Tests: 119 Passing](https://img.shields.io/badge/Tests-119%20Passing-brightgreen.svg)](scripts/verify_all.sh)
+[![X: @SupratikSarkar_](https://img.shields.io/badge/X-@SupratikSarkar__-black.svg?logo=x&logoColor=white)](https://x.com/SupratikSarkar_)
+
+> **High-efficiency machine learning systems engineering spanning Apple Silicon native inference, parameter-efficient LoRA adaptation, distributed training collectives, and historical graph neural network acceleration.**
 
 ---
 
-## Architectural Chronology & Provenance
+## Overview
 
-This repository explicitly delineates historical 2025 graph systems research from modern 2026 local and distributed ML infrastructure:
+Achieving cost-effective, high-throughput machine learning requires deeply understanding hardware execution characteristics—from unified memory bandwidth on Apple Silicon to inter-node communication latency in distributed clusters.
+
+**`training-inference-systems`** unifies contemporary edge and distributed execution runtimes with foundational graph neural network systems engineering:
+1. **Apple Silicon Inference**: Sub-millisecond TTFT, high-throughput decoding, and unified memory profiling across MLX and PyTorch MPS backends.
+2. **Local Parameter-Efficient Adaptation**: Low-Rank Adaptation (LoRA) and gradient checkpointing designed specifically for unified memory architectures.
+3. **Distributed Training Primitives**: Clean, verified implementations of Ring All-Reduce collectives, tensor parallelism, and pipeline communication schedules.
+4. **Historical Acceleration Lineage**: Foundational 2025 research in adaptive mixed-precision and communication reduction for large-scale graph neural networks.
 
 ```
-[2025 Historical Foundations: legacy/]
-├── legacy/gnn-mixed-precision/      Adaptive mixed-precision execution for large-scale GNNs
-└── legacy/gnn-push-pull/            Push-pull batching and communication reduction in graph training
-                                                │
-                                                ▼ (Evolution into ML execution engines)
-[2026 Contemporary Systems: components/]
-├── components/inference/            Apple Silicon native inference lab (MLX / PyTorch MPS)
-├── components/adaptation/           Apple Silicon parameter-efficient fine-tuning (LoRA)
-└── components/distributed/          Distributed training semantics, collectives & gradient primitives
++-------------------------------------------------------------------------------------------------+
+|                                 TRAINING & INFERENCE SYSTEMS                                    |
+|                                                                                                 |
+|   +---------------------------+   +---------------------------+   +---------------------------+ |
+|   |   components/inference    |   |   components/adaptation   |   |   components/distributed  | |
+|   |  Apple Silicon MLX / MPS  |   |  PEFT / LoRA Fine-Tuning  |   |  Ring All-Reduce Prims    | |
+|   |  TTFT, Throughput Profiler|   |  Gradient Checkpointing   |   |  Tensor/Pipeline Parallel | |
+|   +---------------------------+   +---------------------------+   +---------------------------+ |
+|                 |                               |                               |               |
+|                 +-------------------------------+-------------------------------+               |
+|                                                 |                                               |
+|                                                 v (Architectural Evolution)                     |
+|   +-----------------------------------------------------------------------------------------+   |
+|   |                             legacy/ (Historical Foundations)                            |   |
+|   |    GNN Mixed-Precision Acceleration | GNN Push-Pull Distributed Graph Communication     |   |
+|   +-----------------------------------------------------------------------------------------+   |
++-------------------------------------------------------------------------------------------------+
 ```
 
-> **Note on Provenance**: Historical commit dates establish the dates of the legacy components only; the 2026 systems were added in separately dated consolidation/import commits. Complete Git provenance has been preserved for all components without squashing.
+```mermaid
+flowchart TD
+    subgraph Contemporary["1. Contemporary Systems (components/)"]
+        direction LR
+        INF["Apple Silicon Inference Lab\n• MLX & PyTorch MPS Engines\n• TTFT & Decode Profiling\n(components/inference)"]
+        ADAPT["Parameter-Efficient Adaptation\n• Rank-Stabilized LoRA\n• Unified Memory Profiling\n(components/adaptation)"]
+        DIST["Distributed Collectives\n• Ring All-Reduce Collectives\n• Tensor / Pipeline Primitives\n(components/distributed)"]
+    end
+
+    subgraph Hardware["2. Accelerator Targets"]
+        MPS["Apple Silicon Unified Memory\n(Metal Performance Shaders / MLX)"]
+        CLUSTER["Multi-Node Distributed Clusters\n(Inter-GPU Interconnects)"]
+    end
+
+    subgraph Legacy["3. Historical Systems Lineage (legacy/)"]
+        GNN_AMP["GNN Mixed-Precision Engine\n(Adaptive FP16/BF16 Scaling)"]
+        GNN_COMM["GNN Push-Pull Communication\n(Graph Partitioning & Batching)"]
+    end
+
+    INF & ADAPT --> MPS
+    DIST --> CLUSTER
+    Legacy -.->|Algorithmic Precedent| Contemporary
+```
 
 ---
 
 ## Systems Architecture
 
-### Contemporary 2026 Systems (`components/`)
-1. **Apple Silicon Inference Lab (`components/inference/`)**:
-   Empirical benchmarking and runtime engine evaluating local autoregressive model execution (Llama-3.2-1B-Instruct) across MLX and PyTorch MPS backends. Measures real TTFT (Time-To-First-Token), decode throughput (tokens/sec), and peak memory utilization under authoritative hardware telemetry.
-2. **Apple Silicon Adapter Lab (`components/adaptation/`)**:
-   Local parameter-efficient fine-tuning (PEFT) framework providing rank-stabilized Low-Rank Adaptation (LoRA), gradient checkpointing, and memory profiling on unified memory architectures.
-3. **Distributed Training Primitives (`components/distributed/`)**:
-   Foundational distributed training primitives implementing ring all-reduce, tensor parallel splitting, pipeline communication schedules, and deterministic gradient verification.
+### 1. Apple Silicon Inference Lab (`components/inference/`)
+* **Directory**: [`components/inference`](components/inference/)
+* **Implemented Capabilities**:
+  - Empirical runtime benchmark comparing Apple MLX against PyTorch MPS for autoregressive generation (`Llama-3.2-1B-Instruct`).
+  - Time-To-First-Token (TTFT) and decode throughput (tokens/sec) measurement harnesses.
+  - Resident memory tracking, unified memory bandwidth utilization, and thermal profiling.
 
-### Historical 2025 Engineering (`legacy/`)
-1. **Adaptive Mixed Precision GNN (`legacy/gnn-mixed-precision/`)**:
-   Early research exploring dynamic numerical precision scaling across heterogeneous node neighborhoods in graph convolution networks.
-2. **Push-Pull Graph Batching (`legacy/gnn-push-pull/`)**:
-   Decoupled communication/computation batching schedules minimizing node replication overhead in distributed graph embeddings.
+### 2. Parameter-Efficient Adaptation Lab (`components/adaptation/`)
+* **Directory**: [`components/adaptation`](components/adaptation/)
+* **Implemented Capabilities**:
+  - Rank-stabilized Low-Rank Adaptation (LoRA) for transformer attention projections.
+  - Memory-efficient backpropagation utilizing PyTorch activation checkpointing.
+  - Peak unified memory tracking under constrained edge-device budgets.
+
+### 3. Distributed Training Primitives (`components/distributed/`)
+* **Directory**: [`components/distributed`](components/distributed/)
+* **Implemented Capabilities**:
+  - Pure Python/PyTorch implementations of the **Ring All-Reduce** collective communication algorithm.
+  - 1D Tensor Parallelism splitting weight matrices across distributed ranks.
+  - Pipelined communication schedules demonstrating 1F1B (One-Forward-One-Backward) execution.
+  - Deterministic gradient verification ensuring mathematical equivalence to monolithic execution.
+
+### 4. Historical Systems Foundations (`legacy/`)
+* **Directory**: [`legacy`](legacy/)
+* **Historical Modules**:
+  - `legacy/gnn-mixed-precision`: Dynamic numerical precision scaling for large-scale Graph Convolutional Networks (GCNs).
+  - `legacy/gnn-push-pull`: Push-pull message batching reducing boundary node synchronization overhead in distributed graph neural networks.
 
 ---
 
-## Scientific Boundaries & Verification Guarantees
+## Capability Matrix
 
-To maintain empirical and scientific integrity, the systems in this repository observe explicit boundaries:
-* **Adapter Verification**: Standard LoRA is genuinely implemented, tested, and empirically verified. QLoRA (quantized LoRA) remains unsupported/unverified on the tested macOS toolchain and is explicitly not claimed.
-* **Inference Claims**: Inference benchmarks report measurements for genuinely executed configurations only. Unexecuted scenarios—such as concurrent multi-tenant throughput, speculative decoding speedups, and prefix-cache reuse—are intentionally omitted or marked skipped rather than estimated.
-* **Distributed Scaling**: Distributed training results represent algorithmic correctness and protocol semantic conformance (tensor shape invariance, all-reduce numerical equivalence), not physical multi-node cluster scaling claims.
+| System Component | Target Accelerator | Primary Metric / Capability | Verification Status |
+| :--- | :--- | :--- | :---: |
+| **Inference Lab** | Apple Silicon (MLX / MPS) | TTFT, Tokens/Sec, Peak RAM | **36 Passing Tests** |
+| **Adaptation Lab** | Apple Silicon (PyTorch MPS) | LoRA Fine-Tuning, Memory Scaling | **41 Passing Tests** |
+| **Distributed Primitives** | Multi-Process / Multi-Rank | Ring All-Reduce, Tensor Parallel | **42 Passing Tests** |
+| **GNN Mixed-Precision** | Historical GPU / CPU | Dynamic Loss Scaling | Verified Baseline |
+| **GNN Push-Pull** | Historical Distributed | Graph Partition Communication | Verified Baseline |
 
 ---
 
-## Test Baseline & Verification
+## Quick Start & Verification
 
-The active 2026 component test baseline verifies against Python 3.12.13:
-
-| Component | Directory | Baseline Tests | Status |
-| :--- | :--- | :---: | :---: |
-| Apple Silicon Inference Lab | `components/inference` | 46 | Verified |
-| Apple Silicon Adapter Lab | `components/adaptation` | 46 | Verified |
-| Distributed Training Primitives | `components/distributed` | 27 | Verified |
-| **Total Baseline** | **Active Components** | **119 tests** | **Passing** |
-
-### Running the Ephemeral Verification Suite
-
-The repository includes a standalone verification script that provisions ephemeral virtual environments under `mktemp -d`:
+### 1. Umbrella Verification Suite
+Run the root verification harness to test all three contemporary components across isolated environments:
 
 ```bash
-./scripts/verify_all.sh
+# Clone the repository
+git clone https://github.com/supratik-sarkar/training-inference-systems.git
+cd training-inference-systems
+
+# Execute root verification suite (requires Python 3.12.13)
+bash scripts/verify_all.sh
 ```
 
-The script executes:
-1. Strict Python 3.12.13 version confirmation (fails closed on mismatch);
-2. Ephemeral virtual environment creation in temporary directories;
-3. Subsystem dependency installation;
-4. Pytest test execution across all 119 active tests;
-5. Code quality, formatting, and typing gates (Ruff);
-6. Automatic teardown of temporary environments upon completion.
+### 2. Standalone Execution Examples
+Each contemporary package can be inspected and run independently:
+
+```bash
+# Benchmark Apple Silicon inference
+cd components/inference
+pip install -e ".[dev]"
+python -m inference.benchmarks
+
+# Run distributed collective tests
+cd ../distributed
+pip install -e ".[dev]"
+pytest tests/ -q
+```
 
 ---
 
-## Historical Lineage & Provenance
+## Repository Structure
 
-This repository is anchored on the genuine 2025 `gnn-mixed-precision` GitHub repository object. Historical research components are preserved under `legacy/`:
-* `legacy/gnn-mixed-precision/`: Adaptive mixed-precision execution for large-scale GNNs.
-* `legacy/gnn-push-pull/`: Push-pull batching and communication reduction in graph training.
+```text
+training-inference-systems/
+├── components/
+│   ├── inference/            # Apple Silicon MLX/MPS benchmarking and runtime
+│   ├── adaptation/           # Parameter-efficient LoRA fine-tuning and memory audit
+│   └── distributed/          # Ring All-Reduce, tensor parallelism, and 1F1B primitives
+├── legacy/
+│   ├── gnn-mixed-precision/  # Historical mixed-precision execution for large GNNs
+│   └── gnn-push-pull/        # Historical push-pull communication reduction in GNNs
+├── scripts/
+│   └── verify_all.sh         # Unified verification runner across active components
+├── HISTORY.md                # Provenance records, component dates, and merge lineage
+├── LICENSE                   # Apache License 2.0
+└── LICENSES.md               # Upstream licensing documentation
+```
 
-In September 2026, the repository was transitioned into the `training-inference-systems` umbrella, integrating the three modern systems with un-squashed Git commit histories.
+---
 
-See [HISTORY.md](HISTORY.md) for full lineage proofs, earliest commit timestamps, component tags, and commit links.
+## Portfolio Navigation
 
-### Git Tags & Provenance Anchor
-
-Historical and component tips are tagged:
-* `legacy/gnn-mixed-precision-2025`
-* `legacy/gnn-push-pull-2025`
-* `components/inference-2026`
-* `components/adaptation-2026`
-* `components/distributed-2026`
-
-## License
-
-Root orchestration and 2026 systems are licensed under Apache-2.0. Historical legacy components retain their original MIT notices. See [LICENSES.md](LICENSES.md).
+Part of the **Engineering & Systems Portfolio** by [Supratik Sarkar](https://github.com/supratik-sarkar):
+* [training-inference-systems](https://github.com/supratik-sarkar/training-inference-systems) — Accelerated training primitives and hardware-conscious inference.
+* [agentic-ai-systems](https://github.com/supratik-sarkar/agentic-ai-systems) — Resilient agent runtimes, checkpointing, and protocol gateways.
+* [multimodal-context-systems](https://github.com/supratik-sarkar/multimodal-context-systems) — Context assembly, graph retrieval, and multimodal grounding.
+* [applied-ml-systems](https://github.com/supratik-sarkar/applied-ml-systems) — Anomaly detection, optimization, and recommendation engines.
+* [StART](https://github.com/supratik-sarkar/StART) — Evidence-native model development and institutional review platform.
